@@ -10,6 +10,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { CardModalComponent } from './card-modal/card-modal.component';
 import {MatInputModule} from '@angular/material/input';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     MatInputModule,
     FormsModule,
     ReactiveFormsModule,
+    MatSnackBarModule,
   ]
 })
 export class CardsModule { }
