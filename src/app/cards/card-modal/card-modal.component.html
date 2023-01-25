@@ -1,36 +1,40 @@
-<h2 mat-dialog-title>{{ data ? 'Kartviziti düzenle' : 'Yeni Kartvizit'}}</h2>
+<h2 mat-dialog-title style="color: darkolivegreen">{{ data ? 'Kartviziti düzenle' : 'Yeni Kartvizit'}}</h2>
 <mat-dialog-content class="mat-typography">
+  <div *ngIf="showSpinner">
+  <mat-progress-bar color = "warn" mode="indeterminate"></mat-progress-bar>
+  <br>
+  </div>
   <form [formGroup]="cardForm">
-    <mat-form-field class="example-full-width">
+    <mat-form-field style="color: darkolivegreen" class="example-full-width">
       <mat-label>Title</mat-label>
-      <input matInput formControlName="title">
+      <input matInput style="color: darkolivegreen" formControlName="title">
     </mat-form-field>
-    <mat-form-field class="example-full-width">
+    <mat-form-field style="color: darkolivegreen" class="example-full-width">
       <mat-label>Name</mat-label>
-      <input matInput formControlName="name">
+      <input matInput style="color: darkolivegreen" formControlName="name">
     </mat-form-field>
-    <mat-form-field class="example-full-width">
+    <mat-form-field style="color: darkolivegreen" class="example-full-width">
       <mat-label>Phone</mat-label>
-      <input matInput formControlName="phone">
+      <input matInput style="color: darkolivegreen" formControlName="phone">
     </mat-form-field>
-    <mat-form-field class="example-full-width">
+    <mat-form-field style="color: darkolivegreen" class="example-full-width">
       <mat-label>Email</mat-label>
-      <input matInput formControlName="email">
+      <input matInput style="color: darkolivegreen" formControlName="email">
     </mat-form-field>
-    <mat-form-field class="example-full-width">
+    <mat-form-field style="color: darkolivegreen" class="example-full-width">
       <mat-label>Address</mat-label>
-      <textarea matInput formControlName="address"></textarea>
+      <textarea matInput style="color: darkolivegreen" formControlName="address"></textarea>
     </mat-form-field>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <div class="flex-grow-1 text-start" *ngIf="data">
-    <button mat-stroked-button mat-dialog-close color="warn" (click)="deleteCard()" >Sil</button>
+    <button mat-stroked-button mat-dialog-close color="warn" (click)="deleteCard()" [disabled]="showSpinner" >Sil</button>
   </div>
 
   <div>
     <button mat-button mat-dialog-close style="color: darkolivegreen" >Vazgeç</button>
-    <button mat-flat-button color="warn" (click)="data ? updateCard() : addCard()" style="color: darkolivegreen" color="warn">{{data ? 'Düzenle' : 'Ekle'}}</button>
+    <button mat-flat-button color="warn" (click)="data ? updateCard() : addCard()" [disabled]="cardForm.invalid || showSpinner" style="color: darkolivegreen" color="warn">{{data ? 'Düzenle' : 'Ekle'}}</button>
   </div>
 
 </mat-dialog-actions>

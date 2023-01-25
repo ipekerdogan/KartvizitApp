@@ -12,6 +12,7 @@ import {Card} from "../../models/card";
 })
 export class CardModalComponent implements OnInit {
   cardForm !: FormGroup;
+  showSpinner: boolean = false;
   constructor(
     private dialogRef: MatDialogRef<CardModalComponent>,
     private fb: FormBuilder,
@@ -33,7 +34,7 @@ export class CardModalComponent implements OnInit {
   }
 
   addCard(): void {
-    console.log(this.cardForm.value);
+    this.showSpinner = true;
     this.cardService.addCard(this.cardForm.value)
       .subscribe((res:any) => {
         console.log(res);
@@ -41,11 +42,13 @@ export class CardModalComponent implements OnInit {
           duration: 4000,
         });
         this.cardService.getCards();
+        this.showSpinner = false;
         this.dialogRef.close(true);
       });
   }
 
   updateCard() {
+    this.showSpinner = true;
     this.cardService.updateCard(this.cardForm.value, this.data.id)
       .subscribe((res : any) => {
         console.log(res);
@@ -53,17 +56,20 @@ export class CardModalComponent implements OnInit {
           duration: 4000,
         });
         this.cardService.getCards();
+        this.showSpinner = false;
         this.dialogRef.close(true);
       });
   }
 
   deleteCard() {
+    this.showSpinner = true;
     this.cardService.deleteCard(this.data.id)
       .subscribe((res:any) => {
         this._snackBar.open(res || 'Kartvizit silindi', '', {
           duration: 4000
         });
         this.cardService.getCards();
+        this.showSpinner = false;
         this.dialogRef.close(true);
       })
   }
