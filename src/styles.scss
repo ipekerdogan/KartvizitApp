@@ -13,3 +13,12 @@ main {
     color: #777;
   }
 }
+
+.mat-mdc-snack-bar-label{
+  &.success {
+    background-color: #198754;
+  }
+  &.error {
+    background-color: #dc3545;
+  }
+}

@@ -4,6 +4,7 @@ import {CardService} from "../../services/card.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Card} from "../../models/card";
+import {SnackbarService} from "../../services/snackbar.service";
 
 @Component({
   selector: 'app-card-modal',
@@ -18,6 +19,7 @@ export class CardModalComponent implements OnInit {
     private fb: FormBuilder,
     private cardService: CardService,
     private _snackBar: MatSnackBar,
+    private snackbarService: SnackbarService,
     @Inject(MAT_DIALOG_DATA) public data: Card
   ) {
   }
@@ -37,40 +39,42 @@ export class CardModalComponent implements OnInit {
     this.showSpinner = true;
     this.cardService.addCard(this.cardForm.value)
       .subscribe((res:any) => {
-        console.log(res);
-        this._snackBar.open(res || 'Kartvizit başarıyla eklendi', '', {
-          duration: 4000,
-        });
-        this.cardService.getCards();
-        this.showSpinner = false;
-        this.dialogRef.close(true);
+        this.getSuccess(res || 'Kartvizit başarıyla eklendi');
+      }, (err : any) => {
+        this.getError(err.message || 'Kartvizit silinirken bir hata oluştu');
       });
   }
 
-  updateCard() {
+
+  updateCard(): void {
     this.showSpinner = true;
     this.cardService.updateCard(this.cardForm.value, this.data.id)
       .subscribe((res : any) => {
-        console.log(res);
-        this._snackBar.open(res || 'Kartvizit başarıyla güncellendi', '', {
-          duration: 4000,
-        });
-        this.cardService.getCards();
-        this.showSpinner = false;
-        this.dialogRef.close(true);
+        this.getSuccess(res || 'Kartvizit başarıyla güncellendi');
+      }, (err : any) => {
+        this.getError(err.message || 'Kartvizit silinirken bir hata oluştu');
       });
   }
 
-  deleteCard() {
+  deleteCard(): void {
     this.showSpinner = true;
     this.cardService.deleteCard(this.data.id)
       .subscribe((res:any) => {
-        this._snackBar.open(res || 'Kartvizit silindi', '', {
-          duration: 4000
-        });
-        this.cardService.getCards();
-        this.showSpinner = false;
-        this.dialogRef.close(true);
-      })
+        this.getSuccess(res || 'Kartvizit silindi');
+      }, (err : any) => {
+        this.getError(err.message || 'Kartvizit silinirken bir hata oluştu');
+      });
+  }
+
+  getSuccess(message: string) {
+    this.snackbarService.createSnackbar('success', message);
+    this.cardService.getCards();
+    this.showSpinner = false;
+    this.dialogRef.close(true);
+  }
+
+  getError(message: string) {
+    this.snackbarService.createSnackbar('error', message);
+    this.showSpinner = false;
   }
 }
