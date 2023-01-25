@@ -40,7 +40,31 @@ export class CardModalComponent implements OnInit {
         this._snackBar.open(res || 'Kartvizit başarıyla eklendi', '', {
           duration: 4000,
         });
+        this.cardService.getCards();
         this.dialogRef.close(true);
       });
+  }
+
+  updateCard() {
+    this.cardService.updateCard(this.cardForm.value, this.data.id)
+      .subscribe((res : any) => {
+        console.log(res);
+        this._snackBar.open(res || 'Kartvizit başarıyla güncellendi', '', {
+          duration: 4000,
+        });
+        this.cardService.getCards();
+        this.dialogRef.close(true);
+      });
+  }
+
+  deleteCard() {
+    this.cardService.deleteCard(this.data.id)
+      .subscribe((res:any) => {
+        this._snackBar.open(res || 'Kartvizit silindi', '', {
+          duration: 4000
+        });
+        this.cardService.getCards();
+        this.dialogRef.close(true);
+      })
   }
 }

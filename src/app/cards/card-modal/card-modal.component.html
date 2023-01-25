@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Yeni Kartvizit</h2>
+<h2 mat-dialog-title>{{ data ? 'Kartviziti düzenle' : 'Yeni Kartvizit'}}</h2>
 <mat-dialog-content class="mat-typography">
   <form [formGroup]="cardForm">
     <mat-form-field class="example-full-width">
@@ -24,7 +24,14 @@
   </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close style="color: darkolivegreen" >Vazgeç</button>
-  <button mat-button (click)="addCard()" style="color: darkolivegreen" color="warn">Ekle</button>
+  <div class="flex-grow-1 text-start" *ngIf="data">
+    <button mat-stroked-button mat-dialog-close color="warn" (click)="deleteCard()" >Sil</button>
+  </div>
+
+  <div>
+    <button mat-button mat-dialog-close style="color: darkolivegreen" >Vazgeç</button>
+    <button mat-flat-button color="warn" (click)="data ? updateCard() : addCard()" style="color: darkolivegreen" color="warn">{{data ? 'Düzenle' : 'Ekle'}}</button>
+  </div>
+
 </mat-dialog-actions>
 
